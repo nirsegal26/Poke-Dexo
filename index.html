@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PokéDexo</title>
+  <link rel="preload" as="image" href="night_background.png">
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="shortcut icon" href="pokeball_pic.png" type="image/x-icon">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <a class="pokedex-title" href="index.html">PokéDexo</a>
+    <div class="search-bar">
+      <button id="randomBtn" title="Random Pokémon"><i class="fa-solid fa-shuffle"></i></button>
+      <input type="text" id="searchInput" placeholder="Search Pokémon by name..."/>
+      <button id="searchBtn" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button id="clearSearch" title="Clear">✕</button>
+      <button id="menuToggle" class="menu-toggle">☰</button>
+      <button id="themeToggle" class="theme-toggle" title="Toggle Day/Night">🌙</button>
+      <nav id="sideMenu" class="side-menu hidden">
+        <button id="closeMenu" class="close-menu">✕</button>
+        <h2>PokéDexo Menu</h2>
+        <ul>
+          <li><button id="menuFavorites"><i class="fa-solid fa-heart" style="color: red;"></i> Favorites</button></li>
+          <li><button id="menuQuiz">❔ Who's That Pokémon?</button></li>
+          <li><button id="menuBuilder"><i class="fa-solid fa-burst" style="color: rgb(218, 113, 218);"></i> Beat Mewtwo</button></li>
+          <li><button disabled>⚙️ More coming soon...</button></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- LIST VIEW -->
+  <main id="listView">
+    <section class="pokemon-grid" id="pokemonGrid"></section>
+    <div class="pagination" id="pagination"></div>
+  </main>
+<!-- QUIZ GAME -->
+  <main id="quizView" class="hidden">
+    <section class="quiz-container">
+      <h1>Who's That Pokémon?</h1>
+
+    <div class="quiz-area">
+      <button id="backToMain" class="nav-btn"><i class="fas fa-home"></i></button>
+
+      <div class="quiz-silhouette">
+        <img id="quizImage" alt="Hidden Pokémon">
+      </div>
+
+      <button id="nextQuiz" class="nav-btn"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+
+
+      <div id="quizOptions" class="quiz-options"></div>
+
+      <p id="quizResult" class="quiz-result"></p>
+
+      <p id="quizScore" class="quiz-score">Score: 0</p>
+      <p id="quizHighScore" class="quiz-high-score">Highest Score: 0</p>
+    </section>
+  </main>
+ <!--  Beat Mewtwo Section -->
+<main id="builderView" class="hidden">
+  <section class="builder-container">
+
+    <!-- הסבר + אנימציית מיו־טו -->
+    <div class="mewtwo-section">
+      <div class="mewtwo-info">
+        <h2>⚔️ Beat Mewtwo Challenge</h2>
+        <p>
+          Mewtwo stands before you, radiating immense power.<br>
+          Choose wisely - you’ll build your Pokémon by selecting one stat from six random Pokémon.<br>
+          If your total exceeds <strong>680</strong>, you’ll defeat Mewtwo!
+        </p>
+      </div>
+      <div class="mewtwo-anim">
+        <img 
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/150.gif" 
+          alt="Mewtwo" id="mewtwoGif">
+      </div>
+    </div>
+
+    <!-- תוכן המשחק -->
+    <p id="builderStatus">Pick one stat from this Pokémon!</p>
+
+    <div class="builder-image">
+      <img id="builderPokemon" alt="Pokémon">
+    </div>
+
+    <div class="builder-options" id="builderOptions"></div>
+
+    <div id="builderProgress" class="builder-progress">Round: 1 / 6</div>
+
+    <div id="builderResult" class="builder-result hidden"></div>
+
+    <div class="builder-controls">
+      <button id="builderRestart" class="nav-btn"><i class="fa-solid fa-repeat"></i></button>
+      <button id="backToMainFromBuilder" class="nav-btn"><i class="fas fa-home"></i></button>
+    </div>
+  </section>
+</main>
+
+
+  <!-- POPUP (DETAIL) -->
+  <div id="pokemonModal" class="modal hidden">
+    <div class="modal-content">
+      <button id="closeModal" class="close-btn">✕</button>
+
+  <div class="modal-hero">
+    <button id="prevPokemon" class="modal-arrow left">◀</button>
+    
+    <div class="modal-circle">
+      <img id="modalSprite" alt="Pokemon" />
+    </div>
+
+    <button id="nextPokemon" class="modal-arrow right">▶</button>
+    
+    <h2 id="modalName"></h2>
+  </div>
+
+
+      <div class="modal-info">
+        <div id="modalTypes" class="chips"></div>
+
+        <div id="pokedexEntry" class="pokedex-entry"></div>
+
+        <h3>Stats</h3>
+        <div id="modalStats" class="stats-list"></div>
+        <h3>Evolution Chain</h3>
+        <div id="evolutionChain" class="evolution-chain"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Powered by <a href="https://pokeapi.co/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"  id="pokeapi"></a></span>
+    <div class="credits">
+      <span><a href="https://github.com/nirsegal26" target="_blank" rel="noreferrer"><img src="https://files.gamebanana.com/img/ico/sprays/animated_bike.gif"></a></span>
+    <span>Created By Nir Segal</span>
+  </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
+ 
