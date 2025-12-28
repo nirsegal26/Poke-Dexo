@@ -282,7 +282,6 @@ async function openModal(info) {
   document.querySelector('.modal-content').style.background =
     `linear-gradient(to bottom, ${bgColor} 40%, #ffffff)`;
 
-  // Types
   modalTypesEl.innerHTML = '';
   info.types.forEach(t => {
     const chip = document.createElement('span');
@@ -292,18 +291,15 @@ async function openModal(info) {
     modalTypesEl.appendChild(chip);
   });
 
-  //  Pokédex Entry
-const pokeEntryEl = document.getElementById('pokedexEntry');
-pokeEntryEl.innerHTML = '';
+  const pokeEntryEl = document.getElementById('pokedexEntry');
+  pokeEntryEl.innerHTML = '';
 
   try {
     const res = await fetch(info.species.url);
     const data = await res.json();
-
     const entry = data.flavor_text_entries.find(e => e.language.name === 'en');
     const genus = data.genera.find(g => g.language.name === 'en');
 
-  // CATEGORY
     if (genus) {
       const categoryDiv = document.createElement('div');
       categoryDiv.className = 'pokentry-category';
@@ -311,7 +307,6 @@ pokeEntryEl.innerHTML = '';
       pokeEntryEl.appendChild(categoryDiv);
     }
 
-    // DESCRIPTION
     const entryDiv = document.createElement('div');
     entryDiv.className = 'pokentry';
     entryDiv.textContent = entry
@@ -324,23 +319,39 @@ pokeEntryEl.innerHTML = '';
     pokeEntryEl.textContent = 'Error loading Pokédex entry 😢';
   }
 
-
-  // STATS
   modalStatsEl.innerHTML = '';
+  
+  let totalStats = 0;
   info.stats.forEach(s => {
+    totalStats += s.base_stat;
     const row = document.createElement('div');
     row.className = 'stat-row';
     row.innerHTML = `
       <div class="stat-name">${s.stat.name}</div>
       <div class="stat-bar">
-        <span style="width:${Math.min(s.base_stat,180)/180*100}%;
+        <span style="width:${Math.min(s.base_stat, 180) / 180 * 100}%;
         background:${statColor(s.base_stat)};"></span>
       </div>
       <div>${s.base_stat}</div>`;
     modalStatsEl.appendChild(row);
   });
 
-  // EVO CHAIN
+  const totalRow = document.createElement('div');
+  totalRow.className = 'stat-row';
+  totalRow.style.marginTop = '12px';
+  totalRow.style.paddingTop = '8px';
+  totalRow.style.borderTop = '2px solid rgba(0,0,0,0.1)';
+  totalRow.style.fontWeight = '800';
+  
+  totalRow.innerHTML = `
+    <div class="stat-name">TOTAL</div>
+    <div class="stat-bar">
+      <span style="width:${Math.min(totalStats, 720) / 720 * 100}%;
+      background: linear-gradient(90deg, #60efff, #00ff87);"></span>
+    </div>
+    <div>${totalStats}</div>`;
+  modalStatsEl.appendChild(totalRow);
+
   await loadEvolutionChain(info);
 }
 
