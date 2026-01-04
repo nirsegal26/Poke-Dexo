@@ -401,7 +401,7 @@ function statColor(v) {
 
 function playCry(id) {
   const audio = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`);
-  audio.volume = 0.6;
+  audio.volume = 0.4;
   audio.play().catch(() => {});
 }
 
